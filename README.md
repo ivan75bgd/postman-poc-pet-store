@@ -19,7 +19,7 @@ To use the Postman collection and environment from this repository, follow these
 
 1. **Clone the Repository**:
 
-```git clone https://github.com/yourusername/postman-poc.git```
+```https://github.com/ivan75bgd/postman-poc-pet-store.git```
 
 2. **Import into Postman**:
 

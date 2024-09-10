@@ -1,0 +1,908 @@
+{
+	"info": {
+		"_postman_id": "3811e4e0-e9d1-4cf6-a598-51f66644b587",
+		"name": "Petstore",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24658364"
+	},
+	"item": [
+		{
+			"name": "pet-workflow",
+			"item": [
+				{
+					"name": "[API-9] Create a New Pet with Valid Data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Get pet ID\", function () {\r",
+									"    var id = responseBody.split('\"id\":')[1].split(',')[0].trim();\r",
+									"    pm.collectionVariables.set(\"pet_id\", id);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 0,\r\n  \"category\": {\r\n    \"id\": 0,\r\n    \"name\": \"string\"\r\n  },\r\n  \"name\": \"doggie\",\r\n  \"photoUrls\": [\r\n    \"string\"\r\n  ],\r\n  \"tags\": [\r\n    {\r\n      \"id\": 0,\r\n      \"name\": \"string\"\r\n    }\r\n  ],\r\n  \"status\": \"available\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseURL}}/{{APIVersion}}/pet",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"{{APIVersion}}",
+								"pet"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[API-1] Valid Pet ID with Image Upload",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Your test name\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"additionalMetadata: null\\nFile uploaded to ./Pet.txt, 259 bytes\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "multipart/form-data",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "postman-cloud:///1ef6e933-a72b-4aa0-bf30-162e41937c66"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BaseURL}}/{{APIVersion}}/pet/{{pet_id}}/uploadImage",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"{{APIVersion}}",
+								"pet",
+								"{{pet_id}}",
+								"uploadImage"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[API-25] Update Pet with Valid Data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Name should be updated\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.name).to.eql(\"Ares\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": {{pet_id}},\r\n  \"category\": {\r\n    \"id\": 0,\r\n    \"name\": \"string\"\r\n  },\r\n  \"name\": \"Ares\",\r\n  \"photoUrls\": [\r\n    \"string\"\r\n  ],\r\n  \"tags\": [\r\n    {\r\n      \"id\": 0,\r\n      \"name\": \"string\"\r\n    }\r\n  ],\r\n  \"status\": \"available\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseURL}}/{{APIVersion}}/pet",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"{{APIVersion}}",
+								"pet"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[API-117] Updates a Pet with Form Data (JSON)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Correct pet ID should be updated\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    var pet_id = pm.collectionVariables.get(\"pet_id\");\r",
+									"\r",
+									"    pm.expect(jsonData.message).to.eq(pet_id.toString());\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Ares",
+									"type": "text"
+								},
+								{
+									"key": "status",
+									"value": "sold",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BaseURL}}/{{APIVersion}}/pet/{{pet_id}}",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"{{APIVersion}}",
+								"pet",
+								"{{pet_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[API-77] Retrieve Pet with Valid ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Name should match\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.name).to.eql(\"Ares\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseURL}}/{{APIVersion}}/pet/{{pet_id}}",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"{{APIVersion}}",
+								"pet",
+								"{{pet_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[API-82] Retrieve Pets with Single Valid Status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"There should be at least 1 sold pet\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    var pet_id = pm.collectionVariables.get(\"pet_id\");\r",
+									"    pm.expect(jsonData.length).to.be.gt(1);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseURL}}/{{APIVersion}}/pet/findByStatus?status=sold",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"{{APIVersion}}",
+								"pet",
+								"findByStatus"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "sold"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[API-87] Delete a Pet with Valid ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Pet ID should match\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    var pet_id = pm.collectionVariables.get(\"pet_id\");\r",
+									"    pm.expect(jsonData.message).to.eql(pet_id.toString());\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "api-key",
+								"value": "special-key",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseURL}}/{{APIVersion}}/pet/{{pet_id}}",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"{{APIVersion}}",
+								"pet",
+								"{{pet_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "store-workflow",
+			"item": [
+				{
+					"name": "[API-9] Create a New Pet with Valid Data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Get pet ID\", function () {\r",
+									"    var id = responseBody.split('\"id\":')[1].split(',')[0].trim();\r",
+									"    pm.collectionVariables.set(\"pet_id_store\", id);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 0,\r\n  \"category\": {\r\n    \"id\": 0,\r\n    \"name\": \"string\"\r\n  },\r\n  \"name\": \"doggie\",\r\n  \"photoUrls\": [\r\n    \"string\"\r\n  ],\r\n  \"tags\": [\r\n    {\r\n      \"id\": 0,\r\n      \"name\": \"string\"\r\n    }\r\n  ],\r\n  \"status\": \"available\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseURL}}/{{APIVersion}}/pet",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"{{APIVersion}}",
+								"pet"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[API-54] Place an Order with Valid Pet ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Get order ID\", function () {\r",
+									"    var id = responseBody.split('\"id\":')[1].split(',')[0].trim();\r",
+									"    pm.collectionVariables.set(\"order_id\", id);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 0,\r\n  \"petId\": {{pet_id_store}},\r\n  \"quantity\": 1,\r\n  \"shipDate\": \"2024-09-04T14:09:25.900Z\",\r\n  \"status\": \"placed\",\r\n  \"complete\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseURL}}/{{APIVersion}}/store/order",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"{{APIVersion}}",
+								"store",
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[API-40] Find Purchase Order by Valid ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Order ID should match\", function () {\r",
+									"    var id = responseBody.split('\"id\":')[1].split(',')[0].trim();\r",
+									"    pm.expect(id).to.be.eql(pm.collectionVariables.get(\"order_id\"));\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Pet ID should match\", function () {\r",
+									"    var id = responseBody.split('\"petId\":')[1].split(',')[0].trim();\r",
+									"    pm.expect(id).to.be.eql(pm.collectionVariables.get(\"pet_id_store\"));\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseURL}}/{{APIVersion}}/store/order/{{order_id}}",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"{{APIVersion}}",
+								"store",
+								"order",
+								"{{order_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[API-59] Returns Pet Inventories by Status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseURL}}/{{APIVersion}}/store/inventory",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"{{APIVersion}}",
+								"store",
+								"inventory"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[API-55] Delete an Order with Valid ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Order ID should be present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(pm.collectionVariables.get(\"order_id\").toString());\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BaseURL}}/{{APIVersion}}/store/order/{{order_id}}",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"{{APIVersion}}",
+								"store",
+								"order",
+								"{{order_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "user-workflow",
+			"item": [
+				{
+					"name": "[API-107] Create a User with Valid Data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"User ID should be present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.be.not.empty;\r",
+									"    pm.collectionVariables.set(\"user_id\", jsonData.message);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 0,\r\n  \"username\": \"Test\",\r\n  \"firstName\": \"TestFirst\",\r\n  \"lastName\": \"TestLast\",\r\n  \"email\": \"test@test.com\",\r\n  \"password\": \"TestPass123\",\r\n  \"phone\": \"123123123\",\r\n  \"userStatus\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseURL}}/{{APIVersion}}/user",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"{{APIVersion}}",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[API-102] Create Multiple Users with Valid Data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message should be ok\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"ok\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"id\": 1,\r\n    \"username\": \"U1\",\r\n    \"firstName\": \"F1\",\r\n    \"lastName\": \"L1\",\r\n    \"email\": \"email1@email1.com\",\r\n    \"password\": \"string\",\r\n    \"phone\": \"string\",\r\n    \"userStatus\": 0\r\n  },\r\n  {\r\n    \"id\": 2,\r\n    \"username\": \"U2\",\r\n    \"firstName\": \"F2\",\r\n    \"lastName\": \"L2\",\r\n    \"email\": \"email2@email2.com\",\r\n    \"password\": \"string\",\r\n    \"phone\": \"string\",\r\n    \"userStatus\": 0\r\n  }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseURL}}/{{APIVersion}}/user/createWithArray",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"{{APIVersion}}",
+								"user",
+								"createWithArray"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[API-92] Update User with Valid Data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"User ID should match\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(pm.collectionVariables.get(\"user_id\").toString());\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": {{user_id}},\r\n  \"username\": \"Test2\",\r\n  \"firstName\": \"TestFirst\",\r\n  \"lastName\": \"TestLast\",\r\n  \"email\": \"test@test.com\",\r\n  \"password\": \"TestPass123\",\r\n  \"phone\": \"123123123\",\r\n  \"userStatus\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseURL}}/{{APIVersion}}/user/Test",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"{{APIVersion}}",
+								"user",
+								"Test"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[API-69] Log in with Valid Credentials",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message should contain logged in\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.contain(\"logged in user session:\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseURL}}/{{APIVersion}}/user/login?username=Test2&password=TestPass123",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"{{APIVersion}}",
+								"user",
+								"login"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "Test2"
+								},
+								{
+									"key": "password",
+									"value": "TestPass123"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[API-65] Log Out with Active Session",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message should be ok\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"ok\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseURL}}/{{APIVersion}}/user/logout",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"{{APIVersion}}",
+								"user",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[API-60] Get User by Valid User Name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.sendRequest(\"https://postman-echo.com/get\", function (err, response) {\r",
+									"    console.log(response.json());\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Username should match\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.username).to.eql(\"Test2\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseURL}}/{{APIVersion}}/user/Test2",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"{{APIVersion}}",
+								"user",
+								"Test2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[API-97] Delete User with Valid Username",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message should be Test2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"Test2\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BaseURL}}/{{APIVersion}}/user/Test2",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"{{APIVersion}}",
+								"user",
+								"Test2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "pet_id",
+			"value": ""
+		},
+		{
+			"key": "pet_id_store",
+			"value": ""
+		},
+		{
+			"key": "order_id",
+			"value": ""
+		},
+		{
+			"key": "user_id",
+			"value": ""
+		}
+	]
+}
